@@ -4,6 +4,7 @@ python-dotenv
 pandas
 openpyxl
 gunicorn
-fpdf2
+fpdf
+
 
 
