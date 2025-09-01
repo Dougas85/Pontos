@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Comparador de Listas</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="bg-light">
+<div class="container mt-4">
+    <h2 class="text-center">🔎 Pontos Coincidentes</h2>
+    <p class="text-center">Cole abaixo as duas listas copiadas (Ctrl+C / Ctrl+V) e clique em <b>Gerar PDF</b></p>
+
+    <form method="post">
+        <div class="mb-3">
+            <label for="lista1" class="form-label">Lista 1 - Grade 03</label>
+            <textarea class="form-control" id="lista1" name="lista1" rows="10" placeholder="Cole aqui a primeira lista"></textarea>
+        </div>
+        <div class="mb-3">
+            <label for="lista2" class="form-label">Lista 2 - Grade 06</label>
+            <textarea class="form-control" id="lista2" name="lista2" rows="10" placeholder="Cole aqui a segunda lista"></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary w-100">Gerar PDF</button>
+    </form>
+</div>
+</body>
+</html>
