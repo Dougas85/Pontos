@@ -21,9 +21,9 @@ def limpar_lista(texto, nome_prefixo):
             partes = [p for p in linha.split(" ") if p.strip()]
 
         if len(partes) >= 6:
-            objeto = partes[1].strip()
-            endereco = partes[3].strip()
-            cep = partes[5].strip()
+            objeto = partes[0].strip()
+            endereco = partes[2].strip()
+            cep = partes[3].strip()
             dados.append([objeto, endereco, cep])
 
     df = pd.DataFrame(dados, columns=[f"objeto_{nome_prefixo}", f"endereco_{nome_prefixo}", f"cep_{nome_prefixo}"])
@@ -86,3 +86,4 @@ def index():
 
 if __name__ == "__main__":
     app.run(debug=True)
+
