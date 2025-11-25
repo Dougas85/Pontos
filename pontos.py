@@ -5,6 +5,11 @@ from io import StringIO, BytesIO
 
 app = Flask(__name__)
 
+def limpar_endereco(endereco):
+    if " - " in endereco:
+        endereco = endereco.split(" - ")[0]
+    return endereco.strip()
+
 def limpar_lista(texto, nome_prefixo):
     """
     Recebe o texto colado (Ctrl+C -> Ctrl+V),
@@ -24,6 +29,9 @@ def limpar_lista(texto, nome_prefixo):
             objeto = partes[0].strip()
             endereco = partes[2].strip()
             cep = partes[3].strip()
+
+            endereco = limpar_endereco(endereco)
+            
             dados.append([objeto, endereco, cep])
 
     df = pd.DataFrame(dados, columns=[f"objeto_{nome_prefixo}", f"endereco_{nome_prefixo}", f"cep_{nome_prefixo}"])
@@ -86,4 +94,5 @@ def index():
 
 if __name__ == "__main__":
     app.run(debug=True)
+
 
