@@ -5,32 +5,36 @@ from io import StringIO, BytesIO
 
 app = Flask(__name__)
 
+import re
+
 def limpar_endereco(endereco):
     """
-    Remove trechos do tipo " - até 599/600", " - de 81/82 ao fim", etc.
-    Mantém o número do logradouro que estiver no final.
-    Ex:
-    "Rua X - de 601/602 a 1389/1390 1259" -> "Rua X 1259"
-    "Rua Y 778" -> "Rua Y 778"  (sem '-')
-    "Rua Z - até 99997/99998" -> "Rua Z"     (sem número no final)
+    Remove partes como:
+    - ' - de 1562/1563 a 2001/2002'
+    - ' - até 599/600'
+    Mantendo apenas:
+    nome da rua + número final
     """
+
     if not endereco:
         return endereco
-
+    
     endereco = endereco.strip()
 
-    # tenta remover a parte do "- ..." que vem antes do número final
-    # busca padrão: " - ... <numero_final>"
-    m = re.search(r'\s-\s.*?(?=\s\d+\b)', endereco)
-    if m:
-        # mantém a parte antes do " - " e concatena o número final que já está no texto
-        endereco = endereco[:m.start()] + endereco[m.end():]
-    else:
-        # se não encontrou padrão que preserva número, remove tudo após o primeiro " - "
-        if " - " in endereco:
-            endereco = endereco.split(" - ")[0]
+    # procurar número final
+    m_num = re.search(r'(\d+)$', endereco)
+    numero_final = m_num.group(1) if m_num else ""
 
-    return endereco.strip()
+    # remover tudo entre " - " e o último número
+    endereco_limpo = re.sub(r'\s-\s.*?(\d+)?$', '', endereco).strip()
+
+    # se já terminava com número, não duplica
+    if endereco_limpo.endswith(numero_final):
+        return endereco_limpo
+
+    # monta endereço limpo + número final
+    return f"{endereco_limpo} {numero_final}".strip()
+
 
 def limpar_lista(texto, nome_prefixo):
     """
@@ -116,6 +120,7 @@ def index():
 
 if __name__ == "__main__":
     app.run(debug=True)
+
 
 
 
