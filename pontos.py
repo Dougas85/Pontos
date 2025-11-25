@@ -77,17 +77,17 @@ def gerar_pdf(coincidentes):
 
     # Cabeçalho
     pdf.set_font("Arial", style="B", size=10)
-    pdf.cell(60, 10, "Objeto", border=1)
-    pdf.cell(90, 10, "Endereço", border=1)
-    pdf.cell(40, 10, "CEP", border=1)
+    pdf.cell(40, 10, "Objeto", border=1)
+    pdf.cell(105, 10, "Endereço", border=1)
+    pdf.cell(35, 10, "CEP", border=1)
     pdf.ln()
 
     # Conteúdo
     pdf.set_font("Arial", size=10)
     for _, row in coincidentes.iterrows():
-        pdf.cell(60, 10, str(row.iloc[0]), border=1)
-        pdf.cell(90, 10, str(row.iloc[1])[:40], border=1)
-        pdf.cell(40, 10, str(row.iloc[2]), border=1)
+        pdf.cell(40, 10, str(row.iloc[0]), border=1)
+        pdf.cell(105, 10, str(row.iloc[1])[:40], border=1)
+        pdf.cell(35, 10, str(row.iloc[2]), border=1)
         pdf.ln()
 
     # Retornar PDF em memória
@@ -120,6 +120,7 @@ def index():
 
 if __name__ == "__main__":
     app.run(debug=True)
+
 
 
 
