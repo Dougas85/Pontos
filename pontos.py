@@ -6,8 +6,30 @@ from io import StringIO, BytesIO
 app = Flask(__name__)
 
 def limpar_endereco(endereco):
-    if " - " in endereco:
-        endereco = endereco.split(" - ")[0]
+    """
+    Remove trechos do tipo " - até 599/600", " - de 81/82 ao fim", etc.
+    Mantém o número do logradouro que estiver no final.
+    Ex:
+    "Rua X - de 601/602 a 1389/1390 1259" -> "Rua X 1259"
+    "Rua Y 778" -> "Rua Y 778"  (sem '-')
+    "Rua Z - até 99997/99998" -> "Rua Z"     (sem número no final)
+    """
+    if not endereco:
+        return endereco
+
+    endereco = endereco.strip()
+
+    # tenta remover a parte do "- ..." que vem antes do número final
+    # busca padrão: " - ... <numero_final>"
+    m = re.search(r'\s-\s.*?(?=\s\d+\b)', endereco)
+    if m:
+        # mantém a parte antes do " - " e concatena o número final que já está no texto
+        endereco = endereco[:m.start()] + endereco[m.end():]
+    else:
+        # se não encontrou padrão que preserva número, remove tudo após o primeiro " - "
+        if " - " in endereco:
+            endereco = endereco.split(" - ")[0]
+
     return endereco.strip()
 
 def limpar_lista(texto, nome_prefixo):
@@ -94,5 +116,6 @@ def index():
 
 if __name__ == "__main__":
     app.run(debug=True)
+
 
 
